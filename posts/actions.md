@@ -5,7 +5,7 @@ toc: true
 date: 7/1/2020
 layout: post
 categories: [actions, markdown]
-image: _actions/actions_logo.png
+image: actions/actions_logo.png
 author: 
   - Hamel Husain
   - Jeremy Howard
