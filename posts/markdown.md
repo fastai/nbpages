@@ -2,7 +2,6 @@
 title: An Example Markdown Post
 categories: [markdown]
 toc: true
-layout: post
 date: 2/2/2020
 author:
   - Hamel Husain
