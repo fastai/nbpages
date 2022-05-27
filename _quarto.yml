@@ -1,7 +1,9 @@
 project:
   type: website
   output-dir: docs
-  
+  render:
+    - "posts"
+
 website:
   title: "nbpages"
   navbar:

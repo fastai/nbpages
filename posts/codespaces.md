@@ -6,7 +6,7 @@ date: 5/5/2020
 layout: post
 hide: false
 categories: [codespaces, nbdev]
-image: images/fastpages_posts/codespaces/codespaces.png
+image: _codespaces/codespaces.png
 author: 
  - Hamel Husain
  - Jeremy Howard

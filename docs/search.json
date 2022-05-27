@@ -7,29 +7,29 @@
     "text": "Footnotes\n\n\nThis is the footnote.↩︎"
   },
   {
-    "objectID": "posts/inkcheck.html#installation",
-    "href": "posts/inkcheck.html#installation",
+    "objectID": "posts/linkcheck.html#installation",
+    "href": "posts/linkcheck.html#installation",
     "title": "Introducing fastlinkcheck",
     "section": "Installation",
     "text": "Installation\nYou can install fastlinkcheck with pip:\npip install fastlinkcheck"
   },
   {
-    "objectID": "posts/inkcheck.html#usage",
-    "href": "posts/inkcheck.html#usage",
+    "objectID": "posts/linkcheck.html#usage",
+    "href": "posts/linkcheck.html#usage",
     "title": "Introducing fastlinkcheck",
     "section": "Usage",
     "text": "Usage\nAfter installing fastlinkcheck, the cli command link_check is available from the command line. We can see various options with the --help flag.\n\nlink_check --help\n\nusage: link_check [-h] [--host HOST] [--config_file CONFIG_FILE] [--pdb]\n                  [--xtra XTRA]\n                  path\n\nCheck for broken links recursively in `path`.\n\npositional arguments:\n  path                  Root directory searched recursively for HTML files\n\noptional arguments:\n  -h, --help            show this help message and exit\n  --host HOST           Host and path (without protocol) of web server\n  --config_file CONFIG_FILE\n                        Location of file with urls to ignore\n  --pdb                 Run in pdb debugger (default: False)\n  --xtra XTRA           Parse for additional args (default: '')\n\n\nFrom the root of fastlinkcheck repo, We can search the directory _example/broken_links recursively for broken links like this:\n\nlink_check _example/broken_links \n\n                                                 \nERROR: The Following Broken Links or Paths were found:\n\n- 'http://fastlinkcheck.com/test.html' was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n- 'http://somecdn.com/doesntexist.html' was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n- Path('/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.js') was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n\n: 1\n\n\nSpecifying the --host parameter allows you detect links that are internal by identifying links with that host name. External links are verified by making a request to the appropriate website. On the other hand, internal links are verified by inspecting the presence and content of local files.\nWe must be careful when using the --host argument to only pass the host (and path, if necessary) without the protocol. For example, this is how we specify the hostname if your site’s url is http://fastlinkcheck.com/test.html:\n\nlink_check _example/broken_links --host fastlinkcheck.com\n\n                                                 \nERROR: The Following Broken Links or Paths were found:\n\n- 'http://somecdn.com/doesntexist.html' was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n- Path('/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.js') was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n\n: 1\n\n\nWe now have one less broken link as there is indeed a file named test.html in the root of the path we are searching. However, if we add a path to the end of --host , such as fastlinkcheck.com/mysite the link would again be listed as broken because _example/broken_links/mysite/test.html does not exist:\n\nlink_check _example/broken_links --host fastlinkcheck.com/mysite\n\n                                                 \nERROR: The Following Broken Links or Paths were found:\n\n- 'http://fastlinkcheck.com/test.html' was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n- 'http://somecdn.com/doesntexist.html' was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n- Path('/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.js') was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n\n: 1\n\n\nYou can ignore links by creating a text file that contains a list of urls and paths to ignore. For example, the file _example/broken_links/linkcheck.rc contains:\n\ncat _example/broken_links/linkcheck.rc\n\ntest.js\nhttps://www.google.com\n\n\nWe can use this file to ignore urls and paths with the --config_file argument. This will filter out references to the broken link /test.js from our earlier results:\n\nlink_check _example/broken_links --host fastlinkcheck.com --config_file _example/broken_links/linkcheck.rc\n\n                                                 \nERROR: The Following Broken Links or Paths were found:\n\n- 'http://somecdn.com/doesntexist.html' was found in the following pages:\n  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`\n\n\n: 1\n\n\nFinally, if there are no broken links, link_check will not return anything. The directory _example/no_broken_links/ does not contain any HTML files with broken links:\n\nlink_check _example/no_broken_links\n\nNo broken links found!"
   },
   {
-    "objectID": "posts/inkcheck.html#python",
-    "href": "posts/inkcheck.html#python",
+    "objectID": "posts/linkcheck.html#python",
+    "href": "posts/linkcheck.html#python",
     "title": "Introducing fastlinkcheck",
     "section": "Python",
     "text": "Python\nYou can also use these utilities from python instead of the terminal. Please see these docs for more information."
   },
   {
-    "objectID": "posts/inkcheck.html#using-link_check-in-github-actions",
-    "href": "posts/inkcheck.html#using-link_check-in-github-actions",
+    "objectID": "posts/linkcheck.html#using-link_check-in-github-actions",
+    "href": "posts/linkcheck.html#using-link_check-in-github-actions",
     "title": "Introducing fastlinkcheck",
     "section": "Using link_check in GitHub Actions",
     "text": "Using link_check in GitHub Actions\nThe link_check CLI utility that is installed with fastlinkcheck can be very useful in continuous integration systems like GitHub Actions. Here is an example GitHub Actions workflow that uses link_check:\nname: Check Links\non: [workflow_dispatch, push]\n\njobs:\n  check-links:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v2\n    - uses: actions/setup-python@v2\n    - name: check for broken links\n      run: |\n        pip install fastlinkcheck\n        link_check _example \nWe can a few more lines of code to open an issue instead when a broken link is found, using the gh cli:\n...\n    - name: check for broken links\n      run: |\n        pip install fastlinkcheck\n        link_check _example 2> err || true\n        export GITHUB_TOKEN=\"YOUR_TOKEN\"\n        [[ -s err ]] &&  gh issue create -t \"Broken links found\" -b \"$(< err)\" -R \"yourusername/yourrepo\"\nWe can extend this even further to only open an issue when another issue with a specific label isn’t already open:\n...\n    - name: check for broken links\n      run: |\n       pip install fastlinkcheck\n       link_check \"docs/_site\" --host \"docs.fast.ai\" 2> err || true\n        export GITHUB_TOKEN=\"YOUR_TOKEN\"\n        if [[ -z $(gh issue list -l \"broken-link\")) && (-s err) ]]; then\n          gh issue create -t \"Broken links found\" -b \"$(< err)\" -l \"broken-link\" -R \"yourusername/yourrepo\"\n        fi\nSee the GitHub Actions docs for more information."
@@ -334,19 +334,5 @@
     "title": "fastcore: An Underrated Python Library",
     "section": "Further Reading",
     "text": "Further Reading\nIt should be noted that you should read the main page of the docs first, followed by the section on tests to fully understand the documentation.\n\nThe fastcore documentation site.\nThe fastcore GitHub repo.\nBlog post on delegation."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "nbpages",
-    "section": "",
-    "text": "fastpages\n\n\njupyter\n\n\n\n\nAn easy to use blogging platform with extra features for Jupyter Notebooks\n\n\n\n\n\n\nMay 27, 2022\n\n\nHamel Husain, Jeremy Howard\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nnbdev\n\n\nfastlinkcheck\n\n\n\n\nSay goodbye broken links on your static sites. Platform independent, fast, and built in python.\n\n\n\n\n\n\nNov 17, 2020\n\n\nJeremy Howard, Hamel Husain\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nfastcore\n\n\nfastai\n\n\n\n\nA unique python library that extends the python programming language and provides utilities that enhance productivity.\n\n\n\n\n\n\nOct 1, 2020\n\n\nHamel Husain\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nactions\n\n\nmarkdown\n\n\n\n\nA Tutorial on GitHub Actions For Data Scientists\n\n\n\n\n\n\nJul 1, 2020\n\n\nHamel Husain & Jeremy Howard\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\ncodespaces\n\n\nnbdev\n\n\n\n\nHow a new GitHub feature makes literate programming easier than ever before.\n\n\n\n\n\n\nMay 5, 2020\n\n\nHamel Husain, Jeremy Howard\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\njupyter\n\n\n\n\nA tutorial of fastpages for Jupyter notebooks.\n\n\n\n\n\n\nFeb 20, 2020\n\n\nHamel Husain\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nmarkdown\n\n\n\n\nA minimal example of using markdown with nbpages.\n\n\n\n\n\n\nFeb 2, 2020\n\n\nHamel Husain\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog"
   }
 ]

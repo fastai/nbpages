@@ -5,8 +5,10 @@ toc: true
 date: 7/1/2020
 layout: post
 categories: [actions, markdown]
-image: images/fastpages_posts/actions/actions_logo.png
-author: Hamel Husain & Jeremy Howard
+image: _actions/actions_logo.png
+author: 
+  - Hamel Husain
+  - Jeremy Howard
 ---
 
 # What Superpowers?
@@ -27,8 +29,8 @@ Wouldn't it be cool if you could invoke a chatbot natively on GitHub to test you
 
 Consider the below annotated screenshot of [this Pull Request](https://github.com/machine-learning-apps/actions-ml-cicd/pull/34):
 
-![](/images/fastpages_posts/actions/pr_1.png)
-![](/images/fastpages_posts/actions/pr_2.png)
+![](_actions/pr_1.png)
+![](_actions/pr_2.png)
 
 A more in-depth explanation about the above project can be viewed in this video:
 
