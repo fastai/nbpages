@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.449">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Hamel Husain">
+<meta name="author" content="Jeremy Howard">
+<meta name="dcterms.date" content="2022-05-27">
+<meta name="description" content="An easy to use blogging platform with extra features for Jupyter Notebooks">
+
+<title>nbpages - Introducing nbpages</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">nbpages</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setting-up-fastpages" id="toc-setting-up-fastpages" class="nav-link active" data-scroll-target="#setting-up-fastpages">Setting Up Fastpages</a></li>
+  <li><a href="#jupyter-notebooks-fastpages" id="toc-jupyter-notebooks-fastpages" class="nav-link" data-scroll-target="#jupyter-notebooks-fastpages">Jupyter Notebooks &amp; Fastpages</a>
+  <ul class="collapse">
+  <li><a href="#options-via-frontmatter" id="toc-options-via-frontmatter" class="nav-link" data-scroll-target="#options-via-frontmatter">Options via FrontMatter</a></li>
+  <li><a href="#code-folding" id="toc-code-folding" class="nav-link" data-scroll-target="#code-folding">Code Folding</a></li>
+  <li><a href="#interactive-charts-with-altair" id="toc-interactive-charts-with-altair" class="nav-link" data-scroll-target="#interactive-charts-with-altair">Interactive Charts With Altair</a></li>
+  <li><a href="#data-tables" id="toc-data-tables" class="nav-link" data-scroll-target="#data-tables">Data Tables</a></li>
+  </ul></li>
+  <li><a href="#other-features" id="toc-other-features" class="nav-link" data-scroll-target="#other-features">Other Features</a>
+  <ul class="collapse">
+  <li><a href="#github-flavored-emojis" id="toc-github-flavored-emojis" class="nav-link" data-scroll-target="#github-flavored-emojis">GitHub Flavored Emojis</a></li>
+  <li><a href="#images-wcaptions" id="toc-images-wcaptions" class="nav-link" data-scroll-target="#images-wcaptions">Images w/Captions</a></li>
+  <li><a href="#tweetcards" id="toc-tweetcards" class="nav-link" data-scroll-target="#tweetcards">Tweetcards</a></li>
+  <li><a href="#youtube-videos" id="toc-youtube-videos" class="nav-link" data-scroll-target="#youtube-videos">Youtube Videos</a></li>
+  <li><a href="#boxes-callouts" id="toc-boxes-callouts" class="nav-link" data-scroll-target="#boxes-callouts">Boxes / Callouts</a></li>
+  </ul></li>
+  <li><a href="#more-examples" id="toc-more-examples" class="nav-link" data-scroll-target="#more-examples">More Examples</a></li>
+  <li><a href="#how-fastpages-converts-notebooks-to-blog-posts" id="toc-how-fastpages-converts-notebooks-to-blog-posts" class="nav-link" data-scroll-target="#how-fastpages-converts-notebooks-to-blog-posts">How fastpages Converts Notebooks to Blog Posts</a></li>
+  <li><a href="#resources-next-steps" id="toc-resources-next-steps" class="nav-link" data-scroll-target="#resources-next-steps">Resources &amp; Next Steps</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introducing nbpages</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastpages</div>
+    <div class="quarto-category">jupyter</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    An easy to use blogging platform with extra features for <a href="https://jupyter.org/">Jupyter Notebooks</a>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Hamel Husain </p>
+             <p>Jeremy Howard </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 27, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<p><img src="https://github.com/fastai/fastpages/raw/master/images/diagram.png" title="https://github.com/fastai/fastpages" class="img-fluid"></p>
+<p>We are very pleased to announce the immediate availability of <a href="https://github.com/fastai/fastpages">fastpages</a>. <code>fastpages</code> is a platform which allows you to create and host a blog for free, with no ads and many useful features, such as:</p>
+<ul>
+<li>Create posts containing code, outputs of code (which can be interactive), formatted text, etc directly from <a href="https://jupyter.org/">Jupyter Notebooks</a>; for instance see this great <a href="https://drscotthawley.github.io/devblog3/2019/02/08/My-1st-NN-Part-3-Multi-Layer-and-Backprop.html">example post</a> from Scott Hawley. Notebook posts support features such as:
+<ul>
+<li>Interactive visualizations made with <a href="https://altair-viz.github.io/">Altair</a> remain interactive.</li>
+<li>Hide or show cell input and output.</li>
+<li>Collapsable code cells that are either open or closed by default.</li>
+<li>Define the Title, Summary and other metadata via a special markdown cells</li>
+<li>Ability to add links to <a href="https://colab.research.google.com/">Colab</a> and GitHub automatically.</li>
+</ul></li>
+<li>Create posts, including formatting and images, directly from Microsoft Word documents.</li>
+<li>Create and edit <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a> posts entirely online using GitHub’s built-in markdown editor.</li>
+<li>Embed Twitter cards and YouTube videos.</li>
+<li>Categorization of blog posts by user-supplied tags for discoverability.</li>
+<li>… and <a href="https://github.com/fastai/fastpages">much more</a></li>
+</ul>
+<p><a href="https://github.com/fastai/fastpages">fastpages</a> relies on Github pages for hosting, and <a href="https://github.com/features/actions">Github Actions</a> to automate the creation of your blog. The setup takes around three minutes, and does not require any technical knowledge or expertise. Due to built-in automation of fastpages, you don’t have to fuss with conversion scripts. All you have to do is save your Jupyter notebook, Word document or markdown file into a specified directory and the rest happens automatically. Infact, this blog post is written in a Jupyter notebook, which you can see with the “View on GitHub” link above.</p>
+<p><a href="https://www.fast.ai/">fast.ai</a> have previously released a similar project called <a href="https://www.fast.ai/2020/01/16/fast_template/">fast_template</a>, which is even easier to set up, but does not support automatic creation of posts from Microsoft Word or Jupyter notebooks, including many of the features outlined above.</p>
+<p><strong>Because <code>fastpages</code> is more flexible and extensible, we recommend using it where possible.</strong> <code>fast_template</code> may be a better option for getting folks blogging who have no technical expertise at all, and will only be creating posts using Github’s integrated online editor.</p>
+<section id="setting-up-fastpages" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-fastpages">Setting Up Fastpages</h2>
+<p><a href="https://github.com/fastai/fastpages#setup-instructions">The setup process</a> of fastpages is automated with GitHub Actions, too! Upon creating a repo from the fastpages template, a pull request will automatically be opened (after ~ 30 seconds) configuring your blog so it can start working. The automated pull request will greet you with instructions like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://i.imgur.com/JhkIip8.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Imgur</figcaption><p></p>
+</figure>
+</div>
+<p>All you have to do is follow these instructions (in the PR you receive) and your new blogging site will be up and running!</p>
+</section>
+<section id="jupyter-notebooks-fastpages" class="level2">
+<h2 class="anchored" data-anchor-id="jupyter-notebooks-fastpages">Jupyter Notebooks &amp; Fastpages</h2>
+<p>In this post, we will cover special features that fastpages provides for Jupyter notebooks. You can also write your blog posts with Word documents or markdown in fastpages, which contain many, but not all the same features.</p>
+<section id="options-via-frontmatter" class="level3">
+<h3 class="anchored" data-anchor-id="options-via-frontmatter">Options via FrontMatter</h3>
+<p>The first cell in your Jupyter Notebook or markdown blog post contains front matter. Front matter is metadata that can turn on/off options in your Notebook. It is formatted like this:</p>
+<pre><code># Title
+&gt; Awesome summary
+
+- toc: true
+- branch: master
+- badges: true
+- comments: true
+- author: Hamel Husain &amp; Jeremy Howard
+- categories: [fastpages, jupyter]</code></pre>
+<p><strong>All of the above settings are enabled in this post, so you can see what they look like!</strong></p>
+<ul>
+<li>the summary field (preceeded by <code>&gt;</code>) will be displayed under your title, and will also be used by social media to display as the description of your page.</li>
+<li><code>toc</code>: setting this to <code>true</code> will automatically generate a table of contents</li>
+<li><code>badges</code>: setting this to <code>true</code> will display Google Colab and GitHub links on your blog post.</li>
+<li><code>comments</code>: setting this to <code>true</code> will enable comments. See <a href="https://github.com/fastai/fastpages#enabling-comments">these instructions</a> for more details.</li>
+<li><code>author</code> this will display the authors names.</li>
+<li><code>categories</code> will allow your post to be categorized on a “Tags” page, where readers can browse your post by categories.</li>
+</ul>
+<p><em>Markdown front matter is formatted similarly to notebooks. The differences between the two can be <a href="https://github.com/fastai/fastpages#front-matter-related-options">viewed on the fastpages README</a>.</em></p>
+</section>
+<section id="code-folding" class="level3">
+<h3 class="anchored" data-anchor-id="code-folding">Code Folding</h3>
+<p>put a <code>#collapse-hide</code> flag at the top of any cell if you want to <strong>hide</strong> that cell by default, but give the reader the option to show it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install pandas altair</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse-hide</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>put a <code>#collapse-show</code> flag at the top of any cell if you want to <strong>show</strong> that cell by default, but give the reader the option to hide it:</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse-show</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cars <span class="op">=</span> <span class="st">'https://vega.github.io/vega-datasets/data/cars.json'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>movies <span class="op">=</span> <span class="st">'https://vega.github.io/vega-datasets/data/movies.json'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sp500 <span class="op">=</span> <span class="st">'https://vega.github.io/vega-datasets/data/sp500.csv'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>stocks <span class="op">=</span> <span class="st">'https://vega.github.io/vega-datasets/data/stocks.csv'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>flights <span class="op">=</span> <span class="st">'https://vega.github.io/vega-datasets/data/flights-5k.json'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you want to completely hide cells (not just collapse them), <a href="https://github.com/fastai/fastpages#hide-inputoutput-cells">read these instructions</a>.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hide</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_json(movies) <span class="co"># load movies data</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> [x.replace(<span class="st">' '</span>, <span class="st">'_'</span>) <span class="cf">for</span> x <span class="kw">in</span> df.columns.values]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>genres <span class="op">=</span> df[<span class="st">'Major_Genre'</span>].unique() <span class="co"># get unique field values</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>genres <span class="op">=</span> <span class="bu">list</span>(<span class="bu">filter</span>(<span class="kw">lambda</span> d: d <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>, genres)) <span class="co"># filter out None values</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>genres.sort() <span class="co"># sort alphabetically</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="interactive-charts-with-altair" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-charts-with-altair">Interactive Charts With Altair</h3>
+<p>Interactive visualizations made with <a href="https://altair-viz.github.io/">Altair</a> remain interactive!</p>
+<p>We leave this below cell unhidden so you can enjoy a preview of syntax highlighting in fastpages, which uses the <a href="https://draculatheme.com/">Dracula theme</a>.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select a point for which to provide details-on-demand</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> alt.selection_single(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    encodings<span class="op">=</span>[<span class="st">'x'</span>], <span class="co"># limit selection to x-axis value</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    on<span class="op">=</span><span class="st">'mouseover'</span>,  <span class="co"># select on mouseover events</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    nearest<span class="op">=</span><span class="va">True</span>,    <span class="co"># select data point nearest the cursor</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    empty<span class="op">=</span><span class="st">'none'</span>     <span class="co"># empty selection includes no data points</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># define our base line chart of stock prices</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> alt.Chart().mark_line().encode(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    alt.X(<span class="st">'date:T'</span>),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    alt.Y(<span class="st">'price:Q'</span>, scale<span class="op">=</span>alt.Scale(<span class="bu">type</span><span class="op">=</span><span class="st">'log'</span>)),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    alt.Color(<span class="st">'symbol:N'</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>alt.layer(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    base, <span class="co"># base line chart</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add a rule mark to serve as a guide line</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    alt.Chart().mark_rule(color<span class="op">=</span><span class="st">'#aaa'</span>).encode(</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">'date:T'</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    ).transform_filter(label),</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add circle marks for selected time points, hide unselected points</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    base.mark_circle().encode(</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        opacity<span class="op">=</span>alt.condition(label, alt.value(<span class="dv">1</span>), alt.value(<span class="dv">0</span>))</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    ).add_selection(label),</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add white stroked text to provide a legible background for labels</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    base.mark_text(align<span class="op">=</span><span class="st">'left'</span>, dx<span class="op">=</span><span class="dv">5</span>, dy<span class="op">=-</span><span class="dv">5</span>, stroke<span class="op">=</span><span class="st">'white'</span>, strokeWidth<span class="op">=</span><span class="dv">2</span>).encode(</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        text<span class="op">=</span><span class="st">'price:Q'</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    ).transform_filter(label),</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add text labels for stock prices</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    base.mark_text(align<span class="op">=</span><span class="st">'left'</span>, dx<span class="op">=</span><span class="dv">5</span>, dy<span class="op">=-</span><span class="dv">5</span>).encode(</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        text<span class="op">=</span><span class="st">'price:Q'</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    ).transform_filter(label),</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>stocks</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">500</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">400</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<div id="altair-viz-41d5fb7e7ab54499b1723c5de0b99685"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-41d5fb7e7ab54499b1723c5de0b99685") {
+      outputDiv = document.getElementById("altair-viz-41d5fb7e7ab54499b1723c5de0b99685");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "layer": [{"mark": "line", "encoding": {"color": {"type": "nominal", "field": "symbol"}, "x": {"type": "temporal", "field": "date"}, "y": {"type": "quantitative", "field": "price", "scale": {"type": "log"}}}}, {"mark": {"type": "rule", "color": "#aaa"}, "encoding": {"x": {"type": "temporal", "field": "date"}}, "transform": [{"filter": {"selection": "selector001"}}]}, {"mark": "circle", "encoding": {"color": {"type": "nominal", "field": "symbol"}, "opacity": {"condition": {"value": 1, "selection": "selector001"}, "value": 0}, "x": {"type": "temporal", "field": "date"}, "y": {"type": "quantitative", "field": "price", "scale": {"type": "log"}}}, "selection": {"selector001": {"type": "single", "encodings": ["x"], "on": "mouseover", "nearest": true, "empty": "none"}}}, {"mark": {"type": "text", "align": "left", "dx": 5, "dy": -5, "stroke": "white", "strokeWidth": 2}, "encoding": {"color": {"type": "nominal", "field": "symbol"}, "text": {"type": "quantitative", "field": "price"}, "x": {"type": "temporal", "field": "date"}, "y": {"type": "quantitative", "field": "price", "scale": {"type": "log"}}}, "transform": [{"filter": {"selection": "selector001"}}]}, {"mark": {"type": "text", "align": "left", "dx": 5, "dy": -5}, "encoding": {"color": {"type": "nominal", "field": "symbol"}, "text": {"type": "quantitative", "field": "price"}, "x": {"type": "temporal", "field": "date"}, "y": {"type": "quantitative", "field": "price", "scale": {"type": "log"}}}, "transform": [{"filter": {"selection": "selector001"}}]}], "data": {"url": "https://vega.github.io/vega-datasets/data/stocks.csv"}, "height": 400, "width": 500, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+</section>
+<section id="data-tables" class="level3">
+<h3 class="anchored" data-anchor-id="data-tables">Data Tables</h3>
+<p>You can display tables per the usual way in your blog:</p>
+<div class="cell" data-scrolled="true" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display table with pandas</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'Title'</span>, <span class="st">'Worldwide_Gross'</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Production_Budget'</span>, <span class="st">'IMDB_Rating'</span>]].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Title</th>
+      <th>Worldwide_Gross</th>
+      <th>Production_Budget</th>
+      <th>IMDB_Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>The Land Girls</td>
+      <td>146083.0</td>
+      <td>8000000.0</td>
+      <td>6.1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>First Love, Last Rites</td>
+      <td>10876.0</td>
+      <td>300000.0</td>
+      <td>6.9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I Married a Strange Person</td>
+      <td>203134.0</td>
+      <td>250000.0</td>
+      <td>6.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Let's Talk About Sex</td>
+      <td>373615.0</td>
+      <td>300000.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Slam</td>
+      <td>1087521.0</td>
+      <td>1000000.0</td>
+      <td>3.4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="other-features" class="level2">
+<h2 class="anchored" data-anchor-id="other-features">Other Features</h2>
+<section id="github-flavored-emojis" class="level3">
+<h3 class="anchored" data-anchor-id="github-flavored-emojis">GitHub Flavored Emojis</h3>
+<p>Typing <code>I give this post two :+1:!</code> will render this:</p>
+<p>I give this post two :+1:!</p>
+</section>
+<section id="images-wcaptions" class="level3">
+<h3 class="anchored" data-anchor-id="images-wcaptions">Images w/Captions</h3>
+<p>You can include markdown images with captions like this:</p>
+<pre><code>![](https://www.fast.ai/images/fastai_paper/show_batch.png "Credit: https://www.fast.ai/2020/02/13/fastai-A-Layered-API-for-Deep-Learning/")</code></pre>
+<p><img src="https://www.fast.ai/images/fastai_paper/show_batch.png" title="Credit: https://www.fast.ai/2020/02/13/fastai-A-Layered-API-for-Deep-Learning/" class="img-fluid"></p>
+<p>Of course, the caption is optional.</p>
+</section>
+<section id="tweetcards" class="level3">
+<h3 class="anchored" data-anchor-id="tweetcards">Tweetcards</h3>
+<p>Typing <code>&gt; twitter: https://twitter.com/jakevdp/status/1204765621767901185?s=20</code> will render this:</p>
+<blockquote class="blockquote">
+<p>twitter: https://twitter.com/jakevdp/status/1204765621767901185?s=20</p>
+</blockquote>
+</section>
+<section id="youtube-videos" class="level3">
+<h3 class="anchored" data-anchor-id="youtube-videos">Youtube Videos</h3>
+<p>Typing <code>&gt; youtube: https://youtu.be/XfoYk_Z5AkI</code> will render this:</p>
+<blockquote class="blockquote">
+<p>youtube: https://youtu.be/XfoYk_Z5AkI</p>
+</blockquote>
+</section>
+<section id="boxes-callouts" class="level3">
+<h3 class="anchored" data-anchor-id="boxes-callouts">Boxes / Callouts</h3>
+<p>Typing <code>&gt; Warning: There will be no second warning!</code> will render this:</p>
+<blockquote class="blockquote">
+<p>Warning: There will be no second warning!</p>
+</blockquote>
+<p>Typing <code>&gt; Important: Pay attention! It's important.</code> will render this:</p>
+<blockquote class="blockquote">
+<p>Important: Pay attention! It’s important.</p>
+</blockquote>
+<p>Typing <code>&gt; Tip: This is my tip.</code> will render this:</p>
+<blockquote class="blockquote">
+<p>Tip: This is my tip.</p>
+</blockquote>
+<p>Typing <code>&gt; Note: Take note of this.</code> will render this:</p>
+<blockquote class="blockquote">
+<p>Note: Take note of this.</p>
+</blockquote>
+<p>Typing <code>&gt; Note: A doc link to [an example website: fast.ai](https://www.fast.ai/) should also work fine.</code> will render in the docs:</p>
+<blockquote class="blockquote">
+<p>Note: A doc link to <a href="https://www.fast.ai/">an example website: fast.ai</a> should also work fine.</p>
+</blockquote>
+</section>
+</section>
+<section id="more-examples" class="level2">
+<h2 class="anchored" data-anchor-id="more-examples">More Examples</h2>
+<p>This <a href="https://fastpages.fast.ai/jupyter/2020/02/20/test.html">tutorial</a> contains more examples of what you can do with notebooks.</p>
+</section>
+<section id="how-fastpages-converts-notebooks-to-blog-posts" class="level2">
+<h2 class="anchored" data-anchor-id="how-fastpages-converts-notebooks-to-blog-posts">How fastpages Converts Notebooks to Blog Posts</h2>
+<p>fastpages uses <a href="https://nbdev.fast.ai/index.html">nbdev</a> to power the conversion process of Jupyter Notebooks to blog posts. When you save a notebook into the <code>/_notebooks</code> folder of your repository, GitHub Actions applies <code>nbdev</code> against those notebooks automatically. The same process occurs when you save Word documents or markdown files into the <code>_word</code> or <code>_posts</code> directory, respectively.</p>
+<p>We will discuss how GitHub Actions work in a follow up blog post.</p>
+</section>
+<section id="resources-next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="resources-next-steps">Resources &amp; Next Steps</h2>
+<p>We highly encourage you to start blogging with <code>fastpages</code>! Some resources that may be helpful:</p>
+<ul>
+<li><a href="https://github.com/fastai/fastpages">fastpages repo</a> - this is where you can go to create your own fastpages blog!</li>
+<li>Fastai forums - <a href="https://forums.fast.ai/c/fastai-users/nbdev/">nbdev &amp; blogging category</a>. You can ask questions about fastpages here, as well as suggest new features.</li>
+<li><a href="https://github.com/fastai/nbdev">nbdev</a>: this project powers the conversion of Jupyter notebooks to blog posts.</li>
+</ul>
+<p>If you end up writing a blog post using fastpages, please let us know on Twitter: <a href="https://twitter.com/jeremyphoward"><span class="citation" data-cites="jeremyphoward">@jeremyphoward</span></a>, <a href="https://twitter.com/hamelhusain"><span class="citation" data-cites="HamelHusain">@HamelHusain</span></a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

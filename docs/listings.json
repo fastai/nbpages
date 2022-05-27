@@ -1,0 +1,14 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/intro.html",
+      "/posts/inkcheck.html",
+      "/posts/fastcore.html",
+      "/posts/actions.html",
+      "/posts/codespaces.html",
+      "/posts/example.html",
+      "/posts/markdown.html"
+    ]
+  }
+]

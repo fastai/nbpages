@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.449">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jeremy Howard">
+<meta name="author" content="Hamel Husain">
+<meta name="dcterms.date" content="2020-11-17">
+<meta name="description" content="Say goodbye broken links on your static sites. Platform independent, fast, and built in python.">
+
+<title>nbpages - Introducing fastlinkcheck</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">nbpages</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#the-solution" id="toc-the-solution" class="nav-link" data-scroll-target="#the-solution">The Solution</a></li>
+  <li><a href="#a-tour-of-fastlinkcheck" id="toc-a-tour-of-fastlinkcheck" class="nav-link" data-scroll-target="#a-tour-of-fastlinkcheck">A tour of fastlinkcheck</a>
+  <ul class="collapse">
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  <li><a href="#using-link_check-in-github-actions" id="toc-using-link_check-in-github-actions" class="nav-link" data-scroll-target="#using-link_check-in-github-actions">Using <code>link_check</code> in GitHub Actions</a></li>
+  </ul></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introducing fastlinkcheck</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">nbdev</div>
+    <div class="quarto-category">fastlinkcheck</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Say goodbye broken links on your static sites. Platform independent, fast, and built in python.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jeremy Howard </p>
+             <p>Hamel Husain </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 17, 2020</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<center>
+<img src="fastlinkcheck_images/fastlinkcheck.png" class="img-fluid" alt="A diagram">
+</center>
+<section id="motivation" class="level1">
+<h1>Motivation</h1>
+<p>Recently, fastai has been hard at work improving and overhauling <a href="https://nbdev.fast.ai/">nbdev</a>, a literate programming environment for python. A key feature of nbdev is automated generation of documentation from Jupyter notebooks. This documentation system adds many niceties, such as the following types of hyperlinks automatically:</p>
+<ul>
+<li>Links to source code on GitHub.</li>
+<li>Links to both internal and external documentation by introspecting variable names in backticks.</li>
+</ul>
+<p>Because documentation is so easy to create and maintain in nbdev, we find ourselves and others creating much more of it! In addition to automatic hyperlinks, we often include our own links to relevant websites, blogs and videos when documenting code. For example, one of the largest nbdev generated sites, <a href="https://docs.fast.ai/">docs.fast.ai</a>, has more than 300 external and internal links at the time of this writing.</p>
+</section>
+<section id="the-solution" class="level1">
+<h1>The Solution</h1>
+<p>Due to the continued popularity of <a href="https://github.com/fastai/fastai">fastai</a> and the growth of new nbdev projects, grooming these links manually became quite tedious. We investigated solutions that could verify links for us automatically, but were not satisfied with any existing solutions. These are the features we desired:</p>
+<ul>
+<li>A platform independent solution that is not tied to a specific static site generator like Jekyll or Hugo.</li>
+<li>Intelligent introspection of external links that are actually internal links. For example, if we are building the site docs.fast.ai, a link to <code>https://docs.fast.ai/tutorial</code> should not result in a web request, but rather introspection of the local file system for the presence of <code>tutorial.html</code> in the right location.</li>
+<li>Verification of any links to assets like CSS, data, javascript or other files.</li>
+<li>Logs that are well organized that allow us to see each broken link or reference to a non-existent path, and the pages these are found in.</li>
+<li>Parallelism to verify links as fast as possible.</li>
+<li>Lightweight, easy to install with minimal dependencies.</li>
+</ul>
+<p>We tried tools such as <a href="https://github.com/wummel/linkchecker">linkchecker</a> and <a href="https://github.com/bartdag/pylinkvalidator">pylinkvalidator</a>, but these required your site to be first be hosted. Since we wanted to check links on a static site, hosting is overhead we wanted to avoid.</p>
+<p>This is what led us to create <a href="https://fastlinkcheck.fast.ai/">fastlinkcheck</a>, which we discuss below.</p>
+<blockquote class="blockquote">
+<p>Note: For Ruby users, <a href="https://github.com/gjtorikian/html-proofer">htmlproofer</a> apperas to provide overlapping functionality. We have not tried this library.</p>
+</blockquote>
+</section>
+<section id="a-tour-of-fastlinkcheck" class="level1">
+<h1>A tour of fastlinkcheck</h1>
+<p>For this tour we will be referring to the files in the <a href="https://github.com/fastai/fastlinkcheck">fastlinkcheck repo</a>. You should clone this repo in the current directory in order to follow along:</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>git clone https:<span class="op">//</span>github.com<span class="op">/</span>fastai<span class="op">/</span>fastlinkcheck.git</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cd fastlinkcheck</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cloning into 'fastlinkcheck'...
+remote: Enumerating objects: 135, done.
+remote: Counting objects: 100% (135/135), done.
+remote: Compressing objects: 100% (98/98), done.
+remote: Total 608 (delta 69), reused 76 (delta 34), pack-reused 473
+Receiving objects: 100% (608/608), 1.12 MiB | 10.47 MiB/s, done.
+Resolving deltas: 100% (302/302), done.</code></pre>
+</div>
+</div>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>You can install <code>fastlinkcheck</code> with pip:</p>
+<p><code>pip install fastlinkcheck</code></p>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p>After installing <code>fastlinkcheck</code>, the cli command <code>link_check</code> is available from the command line. We can see various options with the <code>--help</code> flag.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>link_check <span class="op">--</span><span class="bu">help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>usage: link_check [-h] [--host HOST] [--config_file CONFIG_FILE] [--pdb]
+                  [--xtra XTRA]
+                  path
+
+Check for broken links recursively in `path`.
+
+positional arguments:
+  path                  Root directory searched recursively for HTML files
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --host HOST           Host and path (without protocol) of web server
+  --config_file CONFIG_FILE
+                        Location of file with urls to ignore
+  --pdb                 Run in pdb debugger (default: False)
+  --xtra XTRA           Parse for additional args (default: '')</code></pre>
+</div>
+</div>
+<p>From the root of <a href="https://github.com/fastai/fastlinkcheck">fastlinkcheck repo</a>, We can search the directory <code>_example/broken_links</code> recursively for broken links like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>link_check _example<span class="op">/</span>broken_links </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 
+ERROR: The Following Broken Links or Paths were found:
+
+- 'http://fastlinkcheck.com/test.html' was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`
+
+- 'http://somecdn.com/doesntexist.html' was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`
+
+- Path('/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.js') was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>: 1</code></pre>
+</div>
+</div>
+<p>Specifying the <code>--host</code> parameter allows you detect links that are internal by identifying links with that host name. External links are verified by making a request to the appropriate website. On the other hand, internal links are verified by inspecting the presence and content of local files.</p>
+<p>We must be careful when using the <code>--host</code> argument to only pass the host (and path, if necessary) <strong>without</strong> the protocol. For example, this is how we specify the hostname if your site’s url is <code>http://fastlinkcheck.com/test.html</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>link_check _example<span class="op">/</span>broken_links <span class="op">--</span>host fastlinkcheck.com</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 
+ERROR: The Following Broken Links or Paths were found:
+
+- 'http://somecdn.com/doesntexist.html' was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`
+
+- Path('/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.js') was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>: 1</code></pre>
+</div>
+</div>
+<p>We now have one less broken link as there is indeed a file named <code>test.html</code> in the root of the path we are searching. However, if we add a path to the end of <code>--host</code> , such as <code>fastlinkcheck.com/mysite</code> the link would again be listed as broken because <code>_example/broken_links/mysite/test.html</code> does not exist:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>link_check _example<span class="op">/</span>broken_links <span class="op">--</span>host fastlinkcheck.com<span class="op">/</span>mysite</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 
+ERROR: The Following Broken Links or Paths were found:
+
+- 'http://fastlinkcheck.com/test.html' was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`
+
+- 'http://somecdn.com/doesntexist.html' was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`
+
+- Path('/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.js') was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>: 1</code></pre>
+</div>
+</div>
+<p>You can ignore links by creating a text file that contains a list of urls and paths to ignore. For example, the file <code>_example/broken_links/linkcheck.rc</code> contains:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cat _example<span class="op">/</span>broken_links<span class="op">/</span>linkcheck.rc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>test.js
+https://www.google.com</code></pre>
+</div>
+</div>
+<p>We can use this file to ignore urls and paths with the <code>--config_file</code> argument. This will filter out references to the broken link <code>/test.js</code> from our earlier results:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>link_check _example<span class="op">/</span>broken_links <span class="op">--</span>host fastlinkcheck.com <span class="op">--</span>config_file _example<span class="op">/</span>broken_links<span class="op">/</span>linkcheck.rc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 
+ERROR: The Following Broken Links or Paths were found:
+
+- 'http://somecdn.com/doesntexist.html' was found in the following pages:
+  - `/Users/hamelsmu/github/fastlinkcheck/_example/broken_links/test.html`</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>: 1</code></pre>
+</div>
+</div>
+<p>Finally, if there are no broken links, <code>link_check</code> will not return anything. The directory <code>_example/no_broken_links/</code> does not contain any HTML files with broken links:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>link_check _example<span class="op">/</span>no_broken_links</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>No broken links found!                           </code></pre>
+</div>
+</div>
+</section>
+<section id="python" class="level2">
+<h2 class="anchored" data-anchor-id="python">Python</h2>
+<p>You can also use these utilities from python instead of the terminal. Please see <a href="https://fastlinkcheck.fast.ai/linkcheck.html/">these docs</a> for more information.</p>
+</section>
+<section id="using-link_check-in-github-actions" class="level2">
+<h2 class="anchored" data-anchor-id="using-link_check-in-github-actions">Using <code>link_check</code> in GitHub Actions</h2>
+<p>The <code>link_check</code> CLI utility that is installed with <code>fastlinkcheck</code> can be very useful in continuous integration systems like <a href="https://github.com/features/actions">GitHub Actions</a>. Here is an example GitHub Actions workflow that uses <code>link_check</code>:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Check Links</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">workflow_dispatch</span><span class="kw">,</span><span class="at"> push</span><span class="kw">]</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">check-links</span><span class="kw">:</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v2</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/setup-python@v2</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> check for broken links</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">      run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        pip install fastlinkcheck</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        link_check _example </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can a few more lines of code to open an issue instead when a broken link is found, using the <a href="https://github.com/cli/cli">gh cli</a>:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">...</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">    - name: check for broken links</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">      run: |</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">        pip install fastlinkcheck</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">        link_check _example 2&gt; err || true</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">        export GITHUB_TOKEN="YOUR_TOKEN"</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">        [[ -s err ]] &amp;&amp;  gh issue create -t "Broken links found" -b "$(&lt; err)" -R "yourusername/yourrepo"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can extend this even further to only open an issue when another issue with a specific label isn’t already open:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">...</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">    - name: check for broken links</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">      run: |</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">       pip install fastlinkcheck</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">       link_check "docs/_site" --host "docs.fast.ai" 2&gt; err || true</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">        export GITHUB_TOKEN="YOUR_TOKEN"</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">        if [[ -z $(gh issue list -l "broken-link")) &amp;&amp; (-s err) ]]; then</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">          gh issue create -t "Broken links found" -b "$(&lt; err)" -l "broken-link" -R "yourusername/yourrepo"</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">        fi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See the <a href="https://docs.github.com/en/free-pro-team@latest/actions">GitHub Actions docs</a> for more information.</p>
+</section>
+</section>
+<section id="resources" class="level1">
+<h1>Resources</h1>
+<p>The following resources are relevant for those interested in learning more about <code>fastlinkcheck</code>:</p>
+<ul>
+<li>The fastlinkcheck <a href="https://github.com/fastai/fastlinkcheck">GitHub repo</a></li>
+<li>The fastlinkcheck <a href="https://fastlinkcheck.fast.ai/">docs</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

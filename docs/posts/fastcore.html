@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.449">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Hamel Husain">
+<meta name="dcterms.date" content="2020-10-01">
+<meta name="description" content="A unique python library that extends the python programming language and provides utilities that enhance productivity.">
+
+<title>nbpages - fastcore: An Underrated Python Library</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">nbpages</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#why-fastcore-is-interesting" id="toc-why-fastcore-is-interesting" class="nav-link" data-scroll-target="#why-fastcore-is-interesting">Why fastcore is interesting</a></li>
+  <li><a href="#a-whirlwind-tour-through-fastcore" id="toc-a-whirlwind-tour-through-fastcore" class="nav-link" data-scroll-target="#a-whirlwind-tour-through-fastcore">A whirlwind tour through fastcore</a>
+  <ul class="collapse">
+  <li><a href="#making-kwargs-transparent" id="toc-making-kwargs-transparent" class="nav-link" data-scroll-target="#making-kwargs-transparent">Making **kwargs transparent</a></li>
+  <li><a href="#avoid-boilerplate-when-setting-instance-attributes" id="toc-avoid-boilerplate-when-setting-instance-attributes" class="nav-link" data-scroll-target="#avoid-boilerplate-when-setting-instance-attributes">Avoid boilerplate when setting instance attributes</a></li>
+  <li><a href="#avoiding-subclassing-boilerplate" id="toc-avoiding-subclassing-boilerplate" class="nav-link" data-scroll-target="#avoiding-subclassing-boilerplate">Avoiding subclassing boilerplate</a></li>
+  <li><a href="#type-dispatch" id="toc-type-dispatch" class="nav-link" data-scroll-target="#type-dispatch">Type Dispatch</a></li>
+  <li><a href="#a-better-version-of-functools.partial" id="toc-a-better-version-of-functools.partial" class="nav-link" data-scroll-target="#a-better-version-of-functools.partial">A better version of functools.partial</a></li>
+  <li><a href="#composition-of-functions" id="toc-composition-of-functions" class="nav-link" data-scroll-target="#composition-of-functions">Composition of functions</a></li>
+  <li><a href="#a-more-useful-repr" id="toc-a-more-useful-repr" class="nav-link" data-scroll-target="#a-more-useful-repr">A more useful <code><strong>repr</strong></code></a></li>
+  <li><a href="#monkey-patching-with-a-decorator" id="toc-monkey-patching-with-a-decorator" class="nav-link" data-scroll-target="#monkey-patching-with-a-decorator">Monkey Patching With A Decorator</a></li>
+  <li><a href="#a-better-pathlib.path" id="toc-a-better-pathlib.path" class="nav-link" data-scroll-target="#a-better-pathlib.path">A better pathlib.Path</a></li>
+  <li><a href="#an-even-more-concise-way-to-create-lambdas" id="toc-an-even-more-concise-way-to-create-lambdas" class="nav-link" data-scroll-target="#an-even-more-concise-way-to-create-lambdas">An Even More Concise Way To Create Lambdas</a></li>
+  <li><a href="#notebook-functions" id="toc-notebook-functions" class="nav-link" data-scroll-target="#notebook-functions">Notebook Functions</a></li>
+  <li><a href="#a-drop-in-replacement-for-list" id="toc-a-drop-in-replacement-for-list" class="nav-link" data-scroll-target="#a-drop-in-replacement-for-list">A Drop-In Replacement For List</a></li>
+  </ul></li>
+  <li><a href="#but-wait-theres-more" id="toc-but-wait-theres-more" class="nav-link" data-scroll-target="#but-wait-theres-more">But Wait … There’s More!</a>
+  <ul class="collapse">
+  <li><a href="#utilities" id="toc-utilities" class="nav-link" data-scroll-target="#utilities">Utilities</a></li>
+  <li><a href="#multiprocessing" id="toc-multiprocessing" class="nav-link" data-scroll-target="#multiprocessing">Multiprocessing</a></li>
+  <li><a href="#functional-programming" id="toc-functional-programming" class="nav-link" data-scroll-target="#functional-programming">Functional Programming</a></li>
+  <li><a href="#transforms" id="toc-transforms" class="nav-link" data-scroll-target="#transforms">Transforms</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further Reading</a></li>
+  </ul></li>
+  <li><a href="#shameless-plug-fastpages" id="toc-shameless-plug-fastpages" class="nav-link" data-scroll-target="#shameless-plug-fastpages">Shameless plug: fastpages</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">fastcore: An Underrated Python Library</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastcore</div>
+    <div class="quarto-category">fastai</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A unique python library that extends the python programming language and provides utilities that enhance productivity.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://twitter.com/HamelHusain">Hamel Husain</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 1, 2020</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="_fastcore/td.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">screenshot with code</figcaption><p></p>
+</figure>
+</div>
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>I recently embarked on a journey to sharpen my python skills: I wanted to learn advanced patterns, idioms, and techniques. I started with reading books on advanced Python, however, the information didn’t seem to stick without having somewhere to apply it. I also wanted the ability to ask questions from an expert while I was learning – which is an arrangement that is hard to find! That’s when it occurred to me: What if I could find an open source project that has fairly advanced python code and write documentation and tests? I made a bet that if I did this it would force me to learn everything very deeply, and the maintainers would be appreciative of my work and be willing to answer my questions.</p>
+<p>And that’s exactly what I did over the past month! I’m pleased to report that it has been the most efficient learning experience I’ve ever experienced. I’ve discovered that writing documentation forced me to deeply understand not just what the code does but also <em>why the code works the way it does</em>, and to explore edge cases while writing tests. Most importantly, I was able to ask questions when I was stuck, and maintainers were willing to devote extra time knowing that their mentorship was in service of making their code more accessible! It turns out the library I choose, <a href="https://fastcore.fast.ai/">fastcore</a> is some of the most fascinating Python I have ever encountered as its purpose and goals are fairly unique.</p>
+<p>For the uninitiated, <a href="https://fastcore.fast.ai/">fastcore</a> is a library on top of which many <a href="https://github.com/fastai">fast.ai</a> projects are built on. Most importantly, <a href="https://fastcore.fast.ai/">fastcore</a> extends the python programming language and strives to eliminate boilerplate and add useful functionality for common tasks. In this blog post, I’m going to highlight some of my favorite tools that fastcore provides, rather than sharing what I learned about python. My goal is to pique your interest in this library, and hopefully motivate you to check out the documentation after you are done to learn more!</p>
+</section>
+<section id="why-fastcore-is-interesting" class="level1">
+<h1>Why fastcore is interesting</h1>
+<ol type="1">
+<li><strong>Get exposed to ideas from other languages without leaving python:</strong> I’ve always heard that it is beneficial to learn other languages in order to become a better programmer. From a pragmatic point of view, I’ve found it difficult to learn other languages because I could never use them at work. Fastcore extends python to include patterns found in languages as diverse as Julia, Ruby and Haskell. Now that I understand these tools I am motivated to learn other languages.</li>
+<li><strong>You get a new set of pragmatic tools</strong>: fastcore includes utilities that will allow you to write more concise expressive code, and perhaps solve new problems.</li>
+<li><strong>Learn more about the Python programming language:</strong> Because fastcore extends the python programming language, many advanced concepts are exposed during the process. For the motivated, this is a great way to see how many of the internals of python work.</li>
+</ol>
+</section>
+<section id="a-whirlwind-tour-through-fastcore" class="level1">
+<h1>A whirlwind tour through fastcore</h1>
+<p>Here are some things you can do with fastcore that immediately caught my attention.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span> pip install <span class="op">-</span>U git<span class="op">+</span>git:<span class="op">//</span>github.com<span class="op">/</span>fastai<span class="op">/</span>fastcore<span class="op">@</span>master</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span> pip install <span class="op">-</span>U git<span class="op">+</span>git:<span class="op">//</span>github.com<span class="op">/</span>fastai<span class="op">/</span>nbdev<span class="op">@</span>master</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">!</span> pip install <span class="op">-</span>U numpy</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.foundation <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.meta <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.utils <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.test <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbdev.showdoc <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.dispatch <span class="im">import</span> typedispatch</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> inspect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+Collecting git+git://github.com/fastai/fastcore@master
+  Cloning git://github.com/fastai/fastcore (to revision master) to /private/var/folders/jj/xl1rktcs6mn7ms6b8vvx8k4r0000gn/T/pip-req-build-jcn52wcw
+  Running command git clone -q git://github.com/fastai/fastcore /private/var/folders/jj/xl1rktcs6mn7ms6b8vvx8k4r0000gn/T/pip-req-build-jcn52wcw
+  fatal: unable to connect to github.com:
+  github.com[0: 192.30.255.112]: errno=Operation timed out
+
+WARNING: Discarding git+git://github.com/fastai/fastcore@master. Command errored out with exit status 128: git clone -q git://github.com/fastai/fastcore /private/var/folders/jj/xl1rktcs6mn7ms6b8vvx8k4r0000gn/T/pip-req-build-jcn52wcw Check the logs for full command output.
+ERROR: Command errored out with exit status 128: git clone -q git://github.com/fastai/fastcore /private/var/folders/jj/xl1rktcs6mn7ms6b8vvx8k4r0000gn/T/pip-req-build-jcn52wcw Check the logs for full command output.
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+Collecting git+git://github.com/fastai/nbdev@master
+  Cloning git://github.com/fastai/nbdev (to revision master) to /private/var/folders/jj/xl1rktcs6mn7ms6b8vvx8k4r0000gn/T/pip-req-build-x5pym0h8
+  Running command git clone -q git://github.com/fastai/nbdev /private/var/folders/jj/xl1rktcs6mn7ms6b8vvx8k4r0000gn/T/pip-req-build-x5pym0h8
+  fatal: unable to connect to github.com:
+  github.com[0: 192.30.255.112]: errno=Operation timed out
+
+WARNING: Discarding git+git://github.com/fastai/nbdev@master. Command errored out with exit status 128: git clone -q git://github.com/fastai/nbdev /private/var/folders/jj/xl1rktcs6mn7ms6b8vvx8k4r0000gn/T/pip-req-build-x5pym0h8 Check the logs for full command output.
+ERROR: Command errored out with exit status 128: git clone -q git://github.com/fastai/nbdev /private/var/folders/jj/xl1rktcs6mn7ms6b8vvx8k4r0000gn/T/pip-req-build-x5pym0h8 Check the logs for full command output.
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+Requirement already satisfied: numpy in /Users/hamel/opt/anaconda3/lib/python3.9/site-packages (1.21.6)
+Collecting numpy
+  Downloading numpy-1.22.4-cp39-cp39-macosx_10_15_x86_64.whl (17.7 MB)
+     |████████████████████████████████| 17.7 MB 4.6 MB/s eta 0:00:01
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+Installing collected packages: numpy
+  Attempting uninstall: numpy
+    WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+    Found existing installation: numpy 1.21.6
+    Uninstalling numpy-1.21.6:
+      Successfully uninstalled numpy-1.21.6
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+datarobot 2.27.1 requires contextlib2&gt;=0.5.5, which is not installed.
+dataprep 0.4.1 requires bottleneck&lt;2.0,&gt;=1.3, which is not installed.
+numba 0.55.1 requires numpy&lt;1.22,&gt;=1.18, but you have numpy 1.22.4 which is incompatible.
+datarobot 2.27.1 requires attrs&lt;21.0,&gt;=19.1.0, but you have attrs 21.4.0 which is incompatible.
+datarobot 2.27.1 requires pandas&lt;1.3.1,&gt;=0.15, but you have pandas 1.4.2 which is incompatible.
+dataprep 0.4.1 requires dask[array,dataframe,delayed]&lt;3.0,&gt;=2.25, but you have dask 2022.2.1 which is incompatible.
+dataprep 0.4.1 requires flask&lt;2.0.0,&gt;=1.1.4, but you have flask 2.0.2 which is incompatible.
+dataprep 0.4.1 requires jinja2&lt;3.0,&gt;=2.11, but you have jinja2 3.0.3 which is incompatible.
+fastai 2.5.4 requires fastcore&lt;1.4,&gt;=1.3.27, but you have fastcore 1.4.3 which is incompatible.
+fastai 2.5.4 requires torch&lt;1.11,&gt;=1.7.0, but you have torch 1.11.0 which is incompatible.
+Successfully installed numpy-1.22.4
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)
+WARNING: Ignoring invalid distribution -cipy (/Users/hamel/opt/anaconda3/lib/python3.9/site-packages)</code></pre>
+</div>
+</div>
+<hr>
+<section id="making-kwargs-transparent" class="level2">
+<h2 class="anchored" data-anchor-id="making-kwargs-transparent">Making **kwargs transparent</h2>
+<p>Whenever I see a function that has the argument <strong>**kwargs</strong>, I cringe a little. This is because it means the API is obfuscated and I have to read the source code to figure out what valid parameters might be. Consider the below example:</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> baz(a, b<span class="op">=</span><span class="dv">2</span>, c<span class="op">=</span><span class="dv">3</span>, d<span class="op">=</span><span class="dv">4</span>): <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> foo(c, a, <span class="op">**</span>kwargs):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c <span class="op">+</span> baz(a, <span class="op">**</span>kwargs)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>inspect.signature(foo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>&lt;Signature (c, a, **kwargs)&gt;</code></pre>
+</div>
+</div>
+<p>Without reading the source code, it might be hard for me to know that <code>foo</code> also accepts and additional parameters <code>b</code> and <code>d</code>. We can fix this with <a href="https://fastcore.fast.ai/foundation.html#delegates"><code>delegates</code></a>:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> baz(a, b<span class="op">=</span><span class="dv">2</span>, c<span class="op">=</span><span class="dv">3</span>, d<span class="op">=</span><span class="dv">4</span>): <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">@delegates</span>(baz) <span class="co"># this decorator will pass down keyword arguments from baz</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> foo(c, a, <span class="op">**</span>kwargs):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c <span class="op">+</span> baz(a, <span class="op">**</span>kwargs)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>inspect.signature(foo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>&lt;Signature (c, a, b=2, d=4)&gt;</code></pre>
+</div>
+</div>
+<p>You can customize the behavior of this decorator. For example, you can have your cake and eat it too by passing down your arguments and also keeping <code>**kwargs</code>:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">@delegates</span>(baz, keep<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> foo(c, a, <span class="op">**</span>kwargs):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c <span class="op">+</span> baz(a, <span class="op">**</span>kwargs)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>inspect.signature(foo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>&lt;Signature (c, a, b=2, d=4, **kwargs)&gt;</code></pre>
+</div>
+</div>
+<p>You can also exclude arguments. For example, we exclude argument <code>d</code> from delegation:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> basefoo(a, b<span class="op">=</span><span class="dv">2</span>, c<span class="op">=</span><span class="dv">3</span>, d<span class="op">=</span><span class="dv">4</span>): <span class="cf">pass</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">@delegates</span>(basefoo, but<span class="op">=</span>[<span class="st">'d'</span>]) <span class="co"># exclude `d`</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> foo(c, a, <span class="op">**</span>kwargs): <span class="cf">pass</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>inspect.signature(foo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>&lt;Signature (c, a, b=2)&gt;</code></pre>
+</div>
+</div>
+<p>You can also delegate between classes:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BaseFoo:</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, e, c<span class="op">=</span><span class="dv">2</span>): <span class="cf">pass</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="at">@delegates</span>()<span class="co"># since no argument was passsed here we delegate to the superclass</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Foo(BaseFoo):</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b<span class="op">=</span><span class="dv">1</span>, <span class="op">**</span>kwargs): <span class="bu">super</span>().<span class="fu">__init__</span>(<span class="op">**</span>kwargs)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>inspect.signature(Foo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>&lt;Signature (a, b=1, c=2)&gt;</code></pre>
+</div>
+</div>
+<p>For more information, read the <a href="https://fastcore.fast.ai/foundation.html#delegates">docs on delegates</a>.</p>
+<hr>
+</section>
+<section id="avoid-boilerplate-when-setting-instance-attributes" class="level2">
+<h2 class="anchored" data-anchor-id="avoid-boilerplate-when-setting-instance-attributes">Avoid boilerplate when setting instance attributes</h2>
+<p>Have you ever wondered if it was possible to avoid the boilerplate involved with setting attributes in <code>__init__</code>?</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Test:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b ,c): </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.a, <span class="va">self</span>.b, <span class="va">self</span>.c <span class="op">=</span> a, b, c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ouch! That was painful. Look at all the repeated variable names. Do I really have to repeat myself like this when defining a class? Not Anymore! Checkout <a href="https://fastcore.fast.ai/basics.html#store_attr">store_attr</a>:</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Test:</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, c): </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        store_attr()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> Test(<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> t.b <span class="op">==</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can also exclude certain attributes:</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Test:</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, c): </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        store_attr(but<span class="op">=</span>[<span class="st">'c'</span>])</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> Test(<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> t.b <span class="op">==</span> <span class="dv">4</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> <span class="bu">hasattr</span>(t, <span class="st">'c'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There are many more ways of customizing and using <code>store_attr</code> than I highlighted here. Check out <a href="https://fastcore.fast.ai/basics.html#store_attr">the docs</a> for more detail.</p>
+<p>P.S. you might be thinking that Python <a href="https://docs.python.org/3/library/dataclasses.html">dataclasses</a> also allow you to avoid this boilerplate. While true in some cases, <code>store_attr</code> is more flexible.{% fn 1 %}</p>
+<p>{{ “For example, store_attr does not rely on inheritance, which means you won’t get stuck using multiple inheritance when using this with your own classes. Also, unlike dataclasses, store_attr does not require python 3.7 or higher. Furthermore, you can use store_attr anytime in the object lifecycle, and in any location in your class to customize the behavior of how and when variables are stored.” | fndetail: 1 }}</p>
+<hr>
+</section>
+<section id="avoiding-subclassing-boilerplate" class="level2">
+<h2 class="anchored" data-anchor-id="avoiding-subclassing-boilerplate">Avoiding subclassing boilerplate</h2>
+<p>One thing I hate about python is the <code>__super__().__init__()</code> boilerplate associated with subclassing. For example:</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParentClass:</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>): <span class="va">self</span>.some_attr <span class="op">=</span> <span class="st">'hello'</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ChildClass(ParentClass):</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>cc <span class="op">=</span> ChildClass()</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> cc.some_attr <span class="op">==</span> <span class="st">'hello'</span> <span class="co"># only accessible b/c you used super</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can avoid this boilerplate by using the metaclass <a href="https://fastcore.fast.ai/foundation.html#PrePostInitMeta">PrePostInitMeta</a>. We define a new class called <code>NewParent</code> that is a wrapper around the <code>ParentClass</code>:</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NewParent(ParentClass, metaclass<span class="op">=</span>PrePostInitMeta):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> __pre_init__(<span class="va">self</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs): <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ChildClass(NewParent):</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):<span class="cf">pass</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> ChildClass()</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> sc.some_attr <span class="op">==</span> <span class="st">'hello'</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="type-dispatch" class="level2">
+<h2 class="anchored" data-anchor-id="type-dispatch">Type Dispatch</h2>
+<p>Type dispatch, or <a href="https://en.wikipedia.org/wiki/Multiple_dispatch#Julia">Multiple dispatch</a>, allows you to change the way a function behaves based upon the input types it receives. This is a prominent feature in some programming languages like Julia. For example, this is a <a href="https://en.wikipedia.org/wiki/Multiple_dispatch#Julia">conceptual example</a> of how multiple dispatch works in Julia, returning different values depending on the input types of x and y:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collide_with</span>(x<span class="op">::</span><span class="dt">Asteroid</span>, y<span class="op">::</span><span class="dt">Asteroid</span>) <span class="op">=</span> <span class="op">...</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># deal with asteroid hitting asteroid</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">collide_with</span>(x<span class="op">::</span><span class="dt">Asteroid</span>, y<span class="op">::</span><span class="dt">Spaceship</span>) <span class="op">=</span> <span class="op">...</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># deal with asteroid hitting spaceship</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">collide_with</span>(x<span class="op">::</span><span class="dt">Spaceship</span>, y<span class="op">::</span><span class="dt">Asteroid</span>) <span class="op">=</span> <span class="op">...</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># deal with spaceship hitting asteroid</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">collide_with</span>(x<span class="op">::</span><span class="dt">Spaceship</span>, y<span class="op">::</span><span class="dt">Spaceship</span>) <span class="op">=</span> <span class="op">...</span> </span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># deal with spaceship hitting spaceship</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Type dispatch can be especially useful in data science, where you might allow different input types (i.e.&nbsp;Numpy arrays and Pandas dataframes) to a function that processes data. Type dispatch allows you to have a common API for functions that do similar tasks.</p>
+<p>Unfortunately, Python does not support this out-of-the box. Fortunately, there is the <a href="https://fastcore.fast.ai/dispatch.html#typedispatch-Decorator"><span class="citation" data-cites="typedispatch">@typedispatch</span></a> decorator to the rescue. This decorator relies upon type hints in order to route inputs the correct version of the function:</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">@typedispatch</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x:<span class="bu">str</span>, y:<span class="bu">str</span>): <span class="cf">return</span> <span class="ss">f'</span><span class="sc">{</span>x<span class="sc">}{</span>y<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="at">@typedispatch</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x:np.ndarray): <span class="cf">return</span> x.<span class="bu">sum</span>()</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="at">@typedispatch</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x:<span class="bu">int</span>, y:<span class="bu">int</span>): <span class="cf">return</span> x<span class="op">+</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Below is a demonstration of type dispatch at work for the function <code>f</code>:</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>f(<span class="st">'Hello '</span>, <span class="st">'World!'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>'Hello World!'</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>f(<span class="dv">2</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>5</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>f(np.array([<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>20</code></pre>
+</div>
+</div>
+<p>There are limitations of this feature, as well as other ways of using this functionality that <a href="https://fastcore.fast.ai/dispatch.html">you can read about here</a>. In the process of learning about typed dispatch, I also found a python library called <a href="https://github.com/mrocklin/multipledispatch">multipledispatch</a> made by <a href="https://github.com/mrocklin">Mathhew Rocklin</a> (the creator of Dask).</p>
+<p>After using this feature, I am now motivated to learn languages like Julia to discover what other paradigms I might be missing.</p>
+<hr>
+</section>
+<section id="a-better-version-of-functools.partial" class="level2">
+<h2 class="anchored" data-anchor-id="a-better-version-of-functools.partial">A better version of functools.partial</h2>
+<p><code>functools.partial</code> is a great utility that creates functions from other functions that lets you set default values. Lets take this function for example that filters a list to only contain values &gt;= <code>val</code>:</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>test_input <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(arr, val): </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Filter a list to remove any values that are less than val."</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [x <span class="cf">for</span> x <span class="kw">in</span> arr <span class="cf">if</span> x <span class="op">&gt;=</span> val]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>f(test_input, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>[3, 4, 5, 6]</code></pre>
+</div>
+</div>
+<p>You can create a new function out of this function using <code>partial</code> that sets the default value to 5:</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>filter5 <span class="op">=</span> partial(f, val<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>filter5(test_input)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>[5, 6]</code></pre>
+</div>
+</div>
+<p>One problem with <code>partial</code> is that it removes the original docstring and replaces it with a generic docstring:</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>filter5.__doc__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>'partial(func, *args, **keywords) - new function with partial application\n    of the given arguments and keywords.\n'</code></pre>
+</div>
+</div>
+<p><a href="https://fastcore.fast.ai/basics.html#partialler">fastcore.utils.partialler</a> fixes this, and makes sure the docstring is retained such that the new API is transparent:</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>filter5 <span class="op">=</span> partialler(f, val<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>filter5.__doc__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>'Filter a list to remove any values that are less than val.'</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="composition-of-functions" class="level2">
+<h2 class="anchored" data-anchor-id="composition-of-functions">Composition of functions</h2>
+<p>A technique that is pervasive in functional programming languages is function composition, whereby you chain a bunch of functions together to achieve some kind of result. This is especially useful when applying various data transformations. Consider a toy example where I have three functions: (1) Removes elements of a list less than 5 (from the prior section) (2) adds 2 to each number (3) sums all the numbers:</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(arr, val): <span class="cf">return</span> [x <span class="op">+</span> val <span class="cf">for</span> x <span class="kw">in</span> arr]</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arrsum(arr): <span class="cf">return</span> <span class="bu">sum</span>(arr)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># See the previous section on partialler</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>add2 <span class="op">=</span> partialler(add, val<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>transform <span class="op">=</span> compose(filter5, add2, arrsum)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>transform([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>15</code></pre>
+</div>
+</div>
+<p>But why is this useful? You might me thinking, I can accomplish the same thing with:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>arrsum(add2(filter5([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You are not wrong! However, composition gives you a convenient interface in case you want to do something like the following:</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit(x, transforms:<span class="bu">list</span>):</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"fit a model after performing transformations"</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> compose(<span class="op">*</span>transforms)(x)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> [np.mean(x)] <span class="op">*</span> <span class="bu">len</span>(x) <span class="co"># its a dumb model.  Don't judge me</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># filters out elements &lt; 5, adds 2, then predicts the mean</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>fit(x<span class="op">=</span>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>], transforms<span class="op">=</span>[filter5, add2])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>[7.5, 7.5]</code></pre>
+</div>
+</div>
+<p>For more information about <code>compose</code>, read <a href="https://fastcore.fast.ai/basics.html#compose">the docs</a>.</p>
+<hr>
+</section>
+<section id="a-more-useful-repr" class="level2">
+<h2 class="anchored" data-anchor-id="a-more-useful-repr">A more useful <code><strong>repr</strong></code></h2>
+<p>In python, <code>__repr__</code> helps you get information about an object for logging and debugging. Below is what you get by default when you define a new class. (Note: we are using <code>store_attr</code>, which was discussed earlier).</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Test:</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b<span class="op">=</span><span class="dv">2</span>, c<span class="op">=</span><span class="dv">3</span>): store_attr() <span class="co"># `store_attr` was discussed previously</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>Test(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>&lt;__main__.Test at 0x7ffcd766cee0&gt;</code></pre>
+</div>
+</div>
+<p>We can use <a href="https://fastcore.fast.ai/basics.html#basic_repr">basic_repr</a> to quickly give us a more sensible default:</p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Test:</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b<span class="op">=</span><span class="dv">2</span>, c<span class="op">=</span><span class="dv">3</span>): store_attr() </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__repr__</span> <span class="op">=</span> basic_repr(<span class="st">'a,b,c'</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>Test(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>Test(a=2, b=2, c=3)</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="monkey-patching-with-a-decorator" class="level2">
+<h2 class="anchored" data-anchor-id="monkey-patching-with-a-decorator">Monkey Patching With A Decorator</h2>
+<p>It can be convenient to <a href="https://www.geeksforgeeks.org/monkey-patching-in-python-dynamic-behavior/">monkey patch</a> with a decorator, which is especially helpful when you want to patch an external library you are importing. We can use the <a href="https://fastcore.fast.ai/foundation.html#patch">decorator <span class="citation" data-cites="patch">@patch</span></a> from <code>fastcore.foundation</code> along with type hints like so:</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyClass(<span class="bu">int</span>): <span class="cf">pass</span>  </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func(<span class="va">self</span>:MyClass, a): <span class="cf">return</span> <span class="va">self</span><span class="op">+</span>a</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>mc <span class="op">=</span> MyClass(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, <code>MyClass</code> has an additional method named <code>func</code>:</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>mc.func(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>13</code></pre>
+</div>
+</div>
+<p>Still not convinced? I’ll show you another example of this kind of patching in the next section.</p>
+<hr>
+</section>
+<section id="a-better-pathlib.path" class="level2">
+<h2 class="anchored" data-anchor-id="a-better-pathlib.path">A better pathlib.Path</h2>
+<p>When you see <a href="https://fastcore.fast.ai/xtras.html#Extensions-to-Pathlib.Path">these extensions</a> to pathlib.path you won’t ever use vanilla pathlib again! A number of additional methods have been added to pathlib, such as:</p>
+<ul>
+<li><code>Path.readlines</code>: same as <code>with open('somefile', 'r') as f: f.readlines()</code></li>
+<li><code>Path.read</code>: same as <code>with open('somefile', 'r') as f: f.read()</code></li>
+<li><code>Path.save</code>: saves file as pickle</li>
+<li><code>Path.load</code>: loads pickle file</li>
+<li><code>Path.ls</code>: shows the contents of the path as a list.</li>
+<li>etc.</li>
+</ul>
+<p><a href="https://fastcore.fast.ai/xtras.html#Extensions-to-Pathlib.Path">Read more about this here</a>. Here is a demonstration of <code>ls</code>:</p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.utils <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> Path(<span class="st">'.'</span>)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>p.ls() <span class="co"># you don't get this with vanilla Pathlib.Path!!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>(#7) [Path('2020-09-01-fastcore.ipynb'),Path('README.md'),Path('fastcore_imgs'),Path('2020-02-20-test.ipynb'),Path('.ipynb_checkpoints'),Path('2020-02-21-introducing-fastpages.ipynb'),Path('my_icons')]</code></pre>
+</div>
+</div>
+<p>Wait! What’s going on here? We just imported <code>pathlib.Path</code> - why are we getting this new functionality? Thats because we imported the <code>fastcore.utils</code> module, which patches this module via the <code>@patch</code> decorator discussed earlier. Just to drive the point home on why the <code>@patch</code> decorator is useful, I’ll go ahead and add another method to <code>Path</code> right now:</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun(<span class="va">self</span>:Path): <span class="cf">return</span> <span class="st">"This is fun!"</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>p.fun()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>'This is fun!'</code></pre>
+</div>
+</div>
+<p>That is magical, right? I know! That’s why I’m writing about it!</p>
+<hr>
+</section>
+<section id="an-even-more-concise-way-to-create-lambdas" class="level2">
+<h2 class="anchored" data-anchor-id="an-even-more-concise-way-to-create-lambdas">An Even More Concise Way To Create Lambdas</h2>
+<p><code>Self</code>, with an uppercase S, is an even more concise way to create lambdas that are calling methods on an object. For example, let’s create a lambda for taking the sum of a Numpy array:</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>arr<span class="op">=</span>np.array([<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>])</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> a: a.<span class="bu">sum</span>()</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> f(arr) <span class="op">==</span> <span class="dv">15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can use <code>Self</code> in the same way:</p>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> Self.<span class="bu">sum</span>()</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> f(arr) <span class="op">==</span> <span class="dv">15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s create a lambda that does a groupby and max of a Pandas dataframe:</p>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span>pd.DataFrame({<span class="st">'Some Column'</span>: [<span class="st">'a'</span>, <span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'b'</span>, ], </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'Another Column'</span>: [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">50</span>, <span class="dv">70</span>]})</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> Self.groupby(<span class="st">'Some Column'</span>).mean()</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>f(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Another Column</th>
+    </tr>
+    <tr>
+      <th>Some Column</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>60</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Read more about <code>Self</code> in <a href="https://fastcore.fast.ai/basics.html#Self-(with-an-uppercase-S)">the docs</a>.</p>
+<hr>
+</section>
+<section id="notebook-functions" class="level2">
+<h2 class="anchored" data-anchor-id="notebook-functions">Notebook Functions</h2>
+<p>These are simple but handy, and allow you to know whether or not code is executing in a Jupyter Notebook, Colab, or an Ipython Shell:</p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.imports <span class="im">import</span> in_notebook, in_colab, in_ipython</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>in_notebook(), in_colab(), in_ipython()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>(True, False, True)</code></pre>
+</div>
+</div>
+<p>This is useful if you are displaying certain types of visualizations, progress bars or animations in your code that you may want to modify or toggle depending on the environment.</p>
+<hr>
+</section>
+<section id="a-drop-in-replacement-for-list" class="level2">
+<h2 class="anchored" data-anchor-id="a-drop-in-replacement-for-list">A Drop-In Replacement For List</h2>
+<p>You might be pretty happy with Python’s <code>list</code>. This is one of those situations that you don’t know you needed a better list until someone showed one to you. Enter <code>L</code>, a list like object with many extra goodies.</p>
+<p>The best way I can describe <code>L</code> is to pretend that <code>list</code> and <code>numpy</code> had a pretty baby:</p>
+<p>define a list (check out the nice <code>__repr__</code> that shows the length of the list!)</p>
+<div class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>L(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>(#3) [1,2,3]</code></pre>
+</div>
+</div>
+<p>Shuffle a list:</p>
+<div class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> L.<span class="bu">range</span>(<span class="dv">20</span>).shuffle()</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>(#20) [8,7,5,12,14,16,2,15,19,6...]</code></pre>
+</div>
+</div>
+<p>Index into a list:</p>
+<div class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>p[<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>(#3) [5,14,2]</code></pre>
+</div>
+</div>
+<p>L has sensible defaults, for example appending an element to a list:</p>
+<div class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">+</span> L(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>(#4) [1,2,3,4]</code></pre>
+</div>
+</div>
+<p>There is much more <code>L</code> has to offer. Read <a href="https://fastcore.fast.ai/foundation.html#Class-L-Methods">the docs</a> to learn more.</p>
+</section>
+</section>
+<section id="but-wait-theres-more" class="level1">
+<h1>But Wait … There’s More!</h1>
+<p><img src="fastcore_imgs/bwtm.jpg" class="img-fluid"></p>
+<p>There are more things I would like to show you about fastcore, but there is no way they would reasonably fit into a blog post. Here is a list of some of my favorite things that I didn’t demo in this blog post:</p>
+<section id="utilities" class="level2">
+<h2 class="anchored" data-anchor-id="utilities">Utilities</h2>
+<p>The <a href="https://fastcore.fast.ai/basics.html">Basics</a> section contain many shortcuts to perform common tasks or provide an additional interface to what standard python provides.</p>
+<ul>
+<li><a href="https://fastcore.fast.ai/basics.html#mk_class">mk_class</a>: quickly add a bunch of attributes to a class</li>
+<li><a href="https://fastcore.fast.ai/basics.html#wrap_class">wrap_class</a>: add new methods to a class with a simple decorator</li>
+<li><a href="https://fastcore.fast.ai/basics.html#groupby">groupby</a>: similar to Scala’s groupby</li>
+<li><a href="https://fastcore.fast.ai/basics.html#merge">merge</a>: merge dicts</li>
+<li><a href="https://fastcore.fast.ai/basics.html#fastuple">fasttuple</a>: a tuple on steroids</li>
+<li><a href="https://fastcore.fast.ai/basics.html#Infinite-Lists">Infinite Lists</a>: useful for padding and testing</li>
+<li><a href="https://fastcore.fast.ai/basics.html#chunked">chunked</a>: for batching and organizing stuff</li>
+</ul>
+</section>
+<section id="multiprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="multiprocessing">Multiprocessing</h2>
+<p>The <a href="http://fastcore.fast.ai/xtras.html#Multiprocessing">Multiprocessing section</a> extends python’s multiprocessing library by offering features like:</p>
+<ul>
+<li>progress bars</li>
+<li>ability to pause to mitigate race conditions with external services</li>
+<li>processing things in batches on each worker, ex: if you have a vectorized operation to perform in chunks</li>
+</ul>
+</section>
+<section id="functional-programming" class="level2">
+<h2 class="anchored" data-anchor-id="functional-programming">Functional Programming</h2>
+<p>The <a href="https://fastcore.fast.ai/basics.html#Functions-on-Functions">functional programming section</a> is my favorite part of this library.</p>
+<ul>
+<li><a href="https://fastcore.fast.ai/basics.html#maps">maps</a>: a map that also composes functions</li>
+<li><a href="https://fastcore.fast.ai/xtras.html#mapped">mapped</a>: A more robust <code>map</code></li>
+<li><a href="https://fastcore.fast.ai/basics.html#using_attr">using_attr</a>: compose a function that operates on an attribute</li>
+</ul>
+</section>
+<section id="transforms" class="level2">
+<h2 class="anchored" data-anchor-id="transforms">Transforms</h2>
+<p><a href="https://fastcore.fast.ai/transform.html">Transforms</a> is a collection of utilities for creating data transformations and associated pipelines. These transformation utilities build upon many of the building blocks discussed in this blog post.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further Reading</h2>
+<p><strong>It should be noted that you should read the <a href="https://fastcore.fast.ai/">main page of the docs</a> first, followed by the section on <a href="https://fastcore.fast.ai/">tests</a> to fully understand the documentation.</strong></p>
+<ul>
+<li>The <a href="https://fastcore.fast.ai/">fastcore documentation site</a>.</li>
+<li>The <a href="https://github.com/fastai/fastcore">fastcore GitHub repo</a>.</li>
+<li>Blog post on <a href="https://www.fast.ai/2019/08/06/delegation/">delegation</a>.</li>
+</ul>
+</section>
+</section>
+<section id="shameless-plug-fastpages" class="level1">
+<h1>Shameless plug: fastpages</h1>
+<p>This blog post was written entirely in a Jupyter Notebook, which GitHub automatically converted into to a blog post! Sound interesting? <a href="https://github.com/fastai/fastpages">Check out fastpages</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
